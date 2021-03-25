@@ -1,16 +1,15 @@
 import discord, datetime, random, asyncio
 import os
 from discord.ext import commands
-client = discord.Client()
 
 bot = commands.Bot(command_prefix='!')
 
 @client.event
 async def on_ready():
     print("봇 실행 준비 완료")
-    print(client.user)
+    print(bot.user)
     game = discord.Game("!도움말")
-    await client.change_presence(status=discord.Status.online, activity=game)
+    await bot.change_presence(status=discord.Status.online, activity=game)
 
 @bot.command()
 async def 연결(ctx):
@@ -22,6 +21,13 @@ async def 연결(ctx):
             await vc.move_to(ctx.message.author.voice.channel)
         except:
             await ctx.send("음성채팅방에 유저가 없습니다.")
+
+@bot.command()
+async def 끊기(ctx):
+    try:
+        await vc.disconnect()
+    except:
+        await ctx.send("이미 연결이 끊겨있습니다.")
 
 @client.event
 async def on_message(message):
@@ -58,7 +64,7 @@ async def on_message(message):
     if message.content.startswith(f"!채널메세지"):
         i = (message.author.guild_permissions.manage_messages)
         if i is True:
-            ch = client.get_channel(int(message.content[7:25]))
+            ch = bot.get_channel(int(message.content[7:25]))
             await ch.send(message.content[26:])
 
         if i is False:
@@ -88,24 +94,6 @@ async def on_message(message):
         if i is True:
             await message.delete()
             await message.channel.purge(limit=number)
-
-        if i is False:
-            await message.channel.send("{}, 당신은 이 명령어를 사용할 권한이 없습니다.".format(message.author.mention))
-
-    if message.content.startswith("!추방"):
-        i = (message.author.guild_permissions.manage_messages)
-        if i is True:
-            member = message.guild.get_member(int(message.content.split(" ")[1]))
-            await message.guild.kick(member, reason=' '.join(message.content.split(" ")[2:]))
-
-        if i is False:
-            await message.channel.send("{}, 당신은 이 명령어를 사용할 권한이 없습니다.".format(message.author.mention))
-
-    if message.content.startswith("!밴"):
-        i = (message.author.guild_permissions.manage_messages)
-        if i is True:
-            member = message.guild.get_member(int(message.content.split(" ")[1]))
-            await message.guild.ban(member, reason=' '.join(message.content.split(" ")[2:]))
 
         if i is False:
             await message.channel.send("{}, 당신은 이 명령어를 사용할 권한이 없습니다.".format(message.author.mention))
