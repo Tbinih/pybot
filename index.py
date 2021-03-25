@@ -1,6 +1,6 @@
 import discord, datetime, random, asyncio
 from discord.ext import commands
-token = "ODI0MjgxNzIwNzgxOTMwNTM3.YFtGLA.UCFft-OW1rI3rMqy9pQ4ABeiPFE"
+token = process.argv.length == 2 ? process.env.token : "";
 client = discord.Client()
 
 bot = commands.Bot(command_prefix='!')
