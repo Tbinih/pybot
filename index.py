@@ -4,7 +4,7 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix='!')
 
-@client.event
+@bot.event
 async def on_ready():
     print("봇 실행 준비 완료")
     print(bot.user)
@@ -29,7 +29,7 @@ async def 끊기(ctx):
     except:
         await ctx.send("이미 연결이 끊겨있습니다.")
 
-@client.event
+@bot.event
 async def on_message(message):
     if message.content == "!테스트":
         await message.channel.send("ㅇㅋ")
@@ -99,4 +99,4 @@ async def on_message(message):
             await message.channel.send("{}, 당신은 이 명령어를 사용할 권한이 없습니다.".format(message.author.mention))
 
 access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+bot.run(access_token)
