@@ -1,6 +1,6 @@
 import discord, datetime, random, asyncio
+import os
 from discord.ext import commands
-token = process.argv.length == 2 ? process.env.token : "";
 client = discord.Client()
 
 bot = commands.Bot(command_prefix='!')
@@ -110,6 +110,5 @@ async def on_message(message):
         if i is False:
             await message.channel.send("{}, 당신은 이 명령어를 사용할 권한이 없습니다.".format(message.author.mention))
 
-client.run(token)
-
-bot.run(token)
+access_token = os.environ["BOT_TOKEN"]
+client.run(access_token)
