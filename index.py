@@ -11,6 +11,11 @@ async def on_ready():
     game = discord.Game("!도움말")
     await bot.change_presence(status=discord.Status.online, activity=game)
     
+@bot.event
+async def on_message(message):
+    if message.content == "!테스트":
+        await message.channel.send("ㅇㅋ")
+    
     if message.content == "!제작자":
         embed = discord.Embed(colour=discord.Colour.blue(), title="티빈이 봇", description="제작자: 티빈이#0945")
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/725881963092770916/824290401862549514/Tbinih3.png")
