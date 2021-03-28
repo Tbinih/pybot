@@ -10,29 +10,6 @@ async def on_ready():
     print(bot.user)
     game = discord.Game("!도움말")
     await bot.change_presence(status=discord.Status.online, activity=game)
-
-@bot.command()
-async def 연결(ctx):
-    try:
-        global vc
-        vc = await ctx.message.author.voice.channel.connect()
-    except:
-        try:
-            await vc.move_to(ctx.message.author.voice.channel)
-        except:
-            await ctx.send("음성채팅방에 유저가 없습니다.")
-
-@bot.command()
-async def 끊기(ctx):
-    try:
-        await vc.disconnect()
-    except:
-        await ctx.send("이미 연결이 끊겨있습니다.")
-
-@bot.event
-async def on_message(message):
-    if message.content == "!테스트":
-        await message.channel.send("ㅇㅋ")
     
     if message.content == "!제작자":
         embed = discord.Embed(colour=discord.Colour.blue(), title="티빈이 봇", description="제작자: 티빈이#0945")
@@ -97,6 +74,26 @@ async def on_message(message):
 
         if i is False:
             await message.channel.send("{}, 당신은 이 명령어를 사용할 권한이 없습니다.".format(message.author.mention))
+            
+    await bot.process_commands(message)
+            
+@bot.command()
+async def 연결(ctx):
+    try:
+        global vc
+        vc = await ctx.message.author.voice.channel.connect()
+    except:
+        try:
+            await vc.move_to(ctx.message.author.voice.channel)
+        except:
+            await ctx.send("음성채팅방에 유저가 없습니다.")
+
+@bot.command()
+async def 끊기(ctx):
+    try:
+        await vc.disconnect()
+    except:
+        await ctx.send("이미 연결이 끊겨있습니다.")
 
 access_token = os.environ["BOT_TOKEN"]
 bot.run(access_token)
